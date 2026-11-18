@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Koding dan Kecerdasan Artifisial: Misi Teknisi Cerdas</title>
+<style>
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;background:#08121f;overflow:hidden;font-family:"Segoe UI",Roboto,Arial,sans-serif;color:#12263f}
+#stage{position:absolute;left:50%;top:50%;width:1280px;height:720px;background:#eaf2fa;transform-origin:center;overflow:hidden}
+.scr{position:absolute;inset:0;display:none}.scr.on{display:flex}
+button{font:inherit;font-size:20px;font-weight:600;cursor:pointer;border:2px solid #0b5cab;background:#fff;color:#0b4a8a;border-radius:12px;min-height:48px;padding:6px 18px}
+button:hover:not(:disabled){background:#dcebfa}button:disabled{opacity:.45;cursor:not-allowed}
+button.pri{background:#0b5cab;color:#fff}button.pri:hover:not(:disabled){background:#084a8c}
+button:focus-visible,select:focus-visible{outline:4px solid #f5b301}
+#bar{position:absolute;top:0;left:0;right:0;height:64px;background:#0b2a4a;color:#fff;display:none;align-items:center;gap:12px;padding:0 20px;z-index:5}
+#bar.on{display:flex}#bar button{min-height:40px;font-size:17px;padding:2px 14px}
+#bar .sp{flex:1}#bar b{font-size:20px}
+#home{flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:18px;background:linear-gradient(135deg,#0b2a4a,#0b5cab);color:#fff;padding:40px 120px}
+#home h1{font-size:50px;line-height:1.15}#home .em{font-size:84px}#home p{font-size:24px;max-width:900px;line-height:1.4}
+#home .q{background:#fff;color:#12263f;border-radius:14px;padding:12px 24px;font-size:23px;font-weight:600}
+.pg{padding:84px 60px 30px;flex-direction:column;gap:14px;width:100%}
+.pg h2{font-size:38px}.pg li{font-size:23px;line-height:1.45;margin-left:28px}.pg p{font-size:23px;line-height:1.45}
+.foot{margin-top:auto;display:flex;gap:14px;justify-content:space-between}
+.grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:10px}
+.card{background:#fff;border:3px solid #9cc0e6;border-radius:16px;padding:16px;text-align:left;min-height:280px;display:flex;flex-direction:column;gap:8px;font-weight:400;color:#12263f}
+.card:hover{border-color:#0b5cab;background:#f3f9ff}.card .n{font-size:18px;color:#0b5cab;font-weight:700}.card .e{font-size:48px}.card b{font-size:22px}.card span{font-size:18px;line-height:1.35}.card .st{margin-top:auto;font-weight:700;font-size:19px}.card.d{border-color:#1b7f3b;background:#effaf2}
+#lv{padding-top:64px;display:none;grid-template-columns:380px 1fr;grid-template-rows:1fr 92px}#lv.on{display:grid}
+.side{background:#fff;border-right:3px solid #c9dcef;padding:18px 22px;display:flex;flex-direction:column;gap:10px;overflow:auto}
+.side .c{font-size:18px;font-weight:700;color:#0b5cab}.side h2{font-size:28px}.side .q{background:#fff6d6;border-left:6px solid #f5b301;padding:10px 12px;font-size:19px;font-weight:600;border-radius:6px}.side p{font-size:19px;line-height:1.45}
+.main{padding:16px 24px;overflow:auto}#task.lock{pointer-events:none;opacity:.75}
+#fbar{grid-column:1/3;background:#0b2a4a;display:flex;align-items:center;gap:14px;padding:0 20px}
+#fb{flex:1;font-size:20px;font-weight:600;padding:10px 14px;border-radius:10px;background:#16406b;color:#fff;line-height:1.3}
+#fb.ok{background:#d9f3e0;color:#0f5a27}#fb.bad{background:#fde1de;color:#8a1c14}
+.glow{box-shadow:0 0 0 5px #f5b301}
+.h{font-size:21px;font-weight:700;margin-bottom:10px}.row{display:flex;gap:20px;margin-bottom:12px}.col{flex:1;display:flex;flex-direction:column;gap:8px}
+.opt{text-align:left;font-weight:500;font-size:19px;min-height:52px}.slot{border:3px dashed #9cc0e6;border-radius:12px;background:#fff;padding:10px 14px;font-size:19px;min-height:52px;cursor:pointer}
+.slot.good{border:3px solid #1b7f3b;background:#e6f6ea}.slot.bad{border:3px solid #b3261e;background:#fdecea}
+select{font:inherit;font-size:20px;font-weight:700;padding:8px;border:2px solid #0b5cab;border-radius:10px;background:#fff;color:#12263f;min-height:48px}
+.rule{background:#fff;border:3px solid #9cc0e6;border-radius:14px;padding:14px 18px;font-size:21px;line-height:2.3}
+input[type=range]{width:100%;height:30px;accent-color:#0b5cab}
+.out{background:#fff;border-radius:12px;padding:10px 14px;font-size:20px;margin-top:10px;border:2px solid #c9dcef}
+.ok{color:#0f5a27}.no{color:#8a1c14}
+#gr{display:grid;grid-template-columns:repeat(6,60px);grid-auto-rows:60px;gap:3px;background:#9cc0e6;padding:3px;border-radius:10px;height:max-content}
+.cell{background:#fff;display:flex;align-items:center;justify-content:center;font-size:32px;position:relative}.rb{font-size:34px;position:relative}.rb i{position:absolute;right:-12px;bottom:-6px;font-size:22px;font-style:normal;color:#b3261e;font-weight:800}
+.blk{background:#fff;border:2px solid #0b5cab;border-radius:10px;padding:6px 10px;font-size:19px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.blk button{min-height:36px;padding:0 10px;font-size:18px}
+.chips{display:grid;grid-template-columns:1fr 1fr;gap:10px}.chip2{background:#fff;border:3px solid #9cc0e6;border-radius:12px;padding:10px;font-size:20px;font-family:Consolas,monospace;font-weight:700;text-align:center;cursor:pointer;min-height:52px}
+.chip2.sel{border-color:#0b5cab;background:#dcebfa}.chip2.dn{border-color:#1b7f3b;background:#e6f6ea;opacity:.6;cursor:default}
+.bk{background:#fff;border:3px solid #0b5cab;border-radius:14px;padding:10px;text-align:center;cursor:pointer;font-size:18px}.bk b{font-size:24px;display:block;color:#0b5cab}.bk small{font-size:16px;display:block;margin-top:4px;color:#12263f}
+.bk:hover{background:#f3f9ff}.bk .got{font-family:Consolas,monospace;font-size:16px;color:#0f5a27;margin-top:4px}
+.big{font-size:70px;text-align:center}.res{background:#fff;border-radius:12px;padding:10px 16px;font-size:21px;display:flex;justify-content:space-between;margin-bottom:8px;border:2px solid #c9dcef}
+</style></head><body>
+<div id="stage">
+<div id="bar"><b>🤖 Misi Teknisi KKA</b><button data-go="home">🏠 Beranda</button><button data-go="guide">📖 Panduan</button><button data-go="map">🗺️ Peta Misi</button><span class="sp"></span><span id="hud"></span><b id="tot">Skor: 0</b><button id="snd" aria-label="Suara">🔊</button></div>
+
+<section id="home" class="scr on"><div class="em">🤖💡</div><h1>Koding dan Kecerdasan Artifisial: Misi Teknisi Cerdas</h1>
+<p>Bantu robot gudang bekerja otomatis! Selesaikan 5 level: algoritma, percabangan, perulangan, tipe data, dan pelatihan model AI.</p>
+<div class="q">Bisakah robot gudang memilih sendiri tanpa disuruh terus-menerus?</div>
+<div><button class="pri" data-go="map" style="font-size:26px;padding:10px 34px">▶ Mulai Misi</button> &nbsp; <button data-go="guide" style="font-size:26px;padding:10px 34px">📖 Panduan</button></div></section>
+
+<section id="guide" class="scr"><div class="pg"><h2>📖 Panduan Bermain</h2>
+<p><b>Tujuan belajar:</b> kamu mampu menyusun algoritma, menggunakan percabangan, perulangan, dan tipe data, serta menjelaskan cara mesin belajar dari data.</p>
+<ul><li>Ada <b>5 level</b> di Peta Misi. Kamu boleh membuka level mana saja, tetapi urutan yang disarankan dari Level 1.</li>
+<li>Setiap level punya <b>3 nyawa</b> (❤️). Salah satu langkah mengurangi 1 nyawa.</li>
+<li>Skor level maksimal <b>100</b>. Setiap kesalahan mengurangi 20 poin (skor minimal 40 jika berhasil).</li>
+<li>Baca kotak <b>umpan balik</b> di bagian bawah layar: isinya penjelasan benar atau salahnya langkahmu.</li>
+<li>Tombol <b>◀ Kembali</b> dan <b>Berikutnya ▶</b> berpindah level. Tombol <b>↻ Ulangi</b> mengulang level.</li></ul>
+<div class="foot"><button data-go="home">◀ Kembali</button><button class="pri" data-go="map">Ke Peta Misi ▶</button></div></div></section>
+
+<section id="map" class="scr"><div class="pg"><h2>🗺️ Peta Misi</h2><p>Pilih misi. Bintang ⭐ menandakan misi selesai.</p><div class="grid5" id="cards"></div>
+<div class="foot"><button data-go="guide">◀ Kembali</button><button class="pri" data-go="result">Lihat Hasil Akhir ▶</button></div></div></section>
+
+<section id="lv" class="scr"><div class="side"><div class="c" id="lvt"></div><h2 id="lvh"></h2><div class="q" id="lvq"></div><p id="lvi"></p></div>
+<div class="main"><div id="task"></div></div>
+<div id="fbar"><div id="fb" aria-live="polite"></div><button id="prev">◀ Kembali</button><button id="retry">↻ Ulangi</button><button id="next" class="pri">Berikutnya ▶</button></div></section>
+
+<section id="result" class="scr"><div class="pg"><h2>🏆 Hasil Akhir</h2><div style="display:flex;gap:30px"><div style="flex:1"><div class="big" id="stars"></div><p id="rtxt" style="text-align:center;font-weight:700"></p></div><div style="flex:1.3" id="rlist"></div></div>
+<p id="rref"></p><div class="foot"><button data-go="map">◀ Peta Misi</button><button class="pri" data-go="creator">Informasi Kreator ▶</button></div></div></section>
+
+<section id="creator" class="scr"><div class="pg"><h2>👤 Informasi Kreator</h2>
+<p><b>Kreator:</b> [Isi nama kreator, boleh disertai gelar]</p><p><b>Organisasi:</b> [Isi nama sekolah/institusi]</p>
+<p><b>Bidang keahlian:</b> Teknologi Informasi. <b>Mata pelajaran:</b> Koding dan Kecerdasan Artifisial.</p>
+<p><b>Keterangan aset:</b> seluruh visual berupa karakter Unicode dan grafik CSS/SVG buatan pengembang. Tidak ada aset atau tautan eksternal. Ilustrasi pendukung dibuat dengan bantuan AI.</p>
+<div class="foot"><button data-go="result">◀ Kembali</button><button class="pri" data-go="home">🏠 Beranda</button></div></div></section>
+</div>
+
+<script>
+const $=s=>document.querySelector(s),sh=(a,b)=>a.sort(()=>b);
+const S={cur:0,lives:3,mis:0,sc:[0,0,0,0,0]};
+let snd=true,ac;
+function beep(f,d,ty){if(!snd)return;try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f;o.type=ty||'sine';g.gain.value=.07;o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+d)}catch(e){}}
+const good=()=>{beep(660,.12);setTimeout(()=>beep(880,.18),120)},badS=()=>beep(180,.3,'square');
+function fit(){const s=Math.min(innerWidth/1280,innerHeight/720);$('#stage').style.transform=`translate(-50%,-50%) scale(${s})`}
+addEventListener('resize',fit);fit();
+function show(id){document.querySelectorAll('.scr').forEach(e=>e.classList.toggle('on',e.id===id));$('#bar').classList.toggle('on',id!=='home');
+ if(id==='map')cards();if(id==='result')result()}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)show(b.dataset.go)});
+$('#snd').onclick=()=>{snd=!snd;$('#snd').textContent=snd?'🔊':'🔇'};
+const total=()=>S.sc.reduce((a,b)=>a+b,0);
+function hud(){$('#hud').textContent='❤️'.repeat(Math.max(S.lives,0))+'🖤'.repeat(3-Math.max(S.lives,0))+'  ';$('#tot').textContent='Skor: '+total()}
+function fb(m,c){const f=$('#fb');f.className=c||'';f.textContent=m}
+const A={bad(m){S.lives--;S.mis++;hud();fb('❌ '+m,'bad');badS();if(S.lives<=0){fb('💔 Nyawa habis. Tekan "↻ Ulangi" untuk mencoba lagi.','bad');$('#task').classList.add('lock')}},
+ win(m){const p=Math.max(40,100-S.mis*20);S.sc[S.cur]=Math.max(S.sc[S.cur],p);hud();$('#task').classList.add('lock');fb(`✅ ${m} (+${p} poin)`,'ok');good();$('#next').classList.add('glow')}};
+
+const LV=[
+{e:'📋',n:'Algoritma',q:'Apa jadinya jika pintu otomatis menutup sebelum orang masuk?',i:'Algoritma adalah urutan langkah yang jelas dan terurut untuk menyelesaikan masalah. Urutan yang salah membuat hasil yang salah.',f:L1},
+{e:'🔀',n:'Percabangan (If-Else)',q:'Kapan kipas ruang server harus menyala?',i:'Percabangan memilih tindakan berdasarkan kondisi: JIKA kondisi benar MAKA tindakan A, JIKA TIDAK tindakan B. Perhatikan batas nilainya.',f:L2},
+{e:'🔁',n:'Perulangan (Loop)',q:'Mengapa menulis "Maju" 4 kali itu boros?',i:'Perulangan mengulang perintah sebanyak n kali. Program jadi lebih singkat dan mudah diubah.',f:L3},
+{e:'🏷️',n:'Variabel dan Tipe Data',q:'Mengapa harga 15750.5 dan kode "A-102" disimpan berbeda?',i:'Variabel menyimpan data. Tipe data: Integer (bulat), Float (desimal), String (teks), Boolean (benar/salah).',f:L4},
+{e:'🧠',n:'Melatih Model AI',q:'Bagaimana mesin tahu biji kopi layak atau cacat?',i:'Model AI belajar dari data latih, lalu diuji dengan data baru (data uji). Model yang baik akurat pada keduanya.',f:L5}];
+
+function cards(){$('#cards').innerHTML=LV.map((l,i)=>`<button class="card ${S.sc[i]?'d':''}" onclick="go(${i})"><div class="n">LEVEL ${i+1}</div><div class="e">${l.e}</div><b>${l.n}</b><span>${l.q}</span><div class="st">${S.sc[i]?'⭐ Skor '+S.sc[i]:'Belum dikerjakan'}</div></button>`).join('')}
+function go(i){S.cur=i;S.lives=3;S.mis=0;show('lv');const l=LV[i];$('#lvt').textContent=`Level ${i+1} dari 5`;$('#lvh').textContent=l.e+' '+l.n;$('#lvq').textContent='💭 '+l.q;$('#lvi').textContent=l.i;
+ $('#task').classList.remove('lock');$('#next').classList.remove('glow');$('#prev').disabled=i===0;$('#next').textContent=i===4?'Hasil Akhir ▶':'Berikutnya ▶';
+ fb('Selesaikan tantangan. Penjelasan hasilmu muncul di sini.');hud();l.f($('#task'),A)}
+$('#prev').onclick=()=>go(S.cur-1);$('#next').onclick=()=>S.cur<4?go(S.cur+1):show('result');$('#retry').onclick=()=>go(S.cur);
+
+/* LEVEL 1 */
+function L1(t,A){const st=['Sensor mendeteksi ada orang mendekat','Cek: apakah jarak orang kurang dari 2 meter?','Buka pintu','Tunggu 5 detik','Tutup pintu'],ord=[3,0,4,2,1];let seq=[],mk=[];
+ function r(){t.innerHTML=`<p class="h">🚪 Algoritma pintu otomatis toko. Ketuk langkah sesuai urutan yang benar, ketuk kotak kanan untuk melepas.</p><div class="row"><div class="col">${ord.filter(i=>!seq.includes(i)).map(i=>`<button class="opt" data-p="${i}">${st[i]}</button>`).join('')}</div><div class="col">${[0,1,2,3,4].map(k=>`<div class="slot ${mk[k]||''}" data-s="${k}">${k+1}. ${seq[k]!=null?st[seq[k]]:'…'}</div>`).join('')}</div></div><button class="pri" id="ck" ${seq.length<5?'disabled':''}>✔ Periksa Urutan</button>`;
+  t.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{seq.push(+b.dataset.p);mk=[];r()});
+  t.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{if(seq[+b.dataset.s]!=null){seq.splice(+b.dataset.s,1);mk=[];r()}});
+  $('#ck').onclick=()=>{mk=seq.map((v,k)=>v===k?'good':'bad');const w=seq.map((v,k)=>v===k?0:k+1).filter(x=>x);r();
+   w.length?A.bad(`Langkah ke-${w.join(', ')} belum tepat. Pikirkan: apa yang harus terjadi lebih dulu?`):A.win('Urutan benar! Sensor mendeteksi, dicek, pintu dibuka, ditunggu, lalu ditutup. Refleksi: apa akibatnya jika "Tutup pintu" ada di urutan pertama?')}}
+ r()}
+
+/* LEVEL 2 */
+function L2(t,A){let c={op:'>',v:35,a:'MENYALA',b:'MATI'};
+ const ev=(x)=>({'>':x>c.v,'≥':x>=c.v,'<':x<c.v,'≤':x<=c.v}[c.op]?c.a:c.b);
+ const sel=(id,o,v)=>`<select id="${id}">${o.map(x=>`<option ${x==v?'selected':''}>${x}</option>`).join('')}</select>`;
+ t.innerHTML=`<p class="h">🖥️ Atur aturan kipas ruang server. Server aman bila suhu di bawah 30°C, dan mulai panas tepat di 30°C.</p>
+ <div class="rule">JIKA suhu ${sel('op',['>','≥','<','≤'],c.op)} ${sel('v',[25,30,35],c.v)} °C<br>MAKA kipas ${sel('a',['MENYALA','MATI'],c.a)} &nbsp; JIKA TIDAK kipas ${sel('b',['MENYALA','MATI'],c.b)}</div>
+ <div class="out">🌡️ Coba suhu: <b id="tv"></b>°C<input type="range" id="tr" min="15" max="45" value="28" aria-label="Suhu"><div id="fan" style="font-size:24px;font-weight:700"></div></div>
+ <button class="pri" id="ck" style="margin-top:10px">▶ Jalankan 3 Uji Kasus</button><div id="rs"></div>`;
+ const up=()=>{c={op:$('#op').value,v:+$('#v').value,a:$('#a').value,b:$('#b').value};const x=+$('#tr').value;$('#tv').textContent=x;$('#fan').innerHTML=`Kipas: ${ev(x)==='MENYALA'?'🌀 MENYALA':'⏹️ MATI'}`};
+ ['op','v','a','b','tr'].forEach(i=>$('#'+i).oninput=up);up();
+ $('#ck').onclick=()=>{const T=[[24,'MATI'],[30,'MENYALA'],[38,'MENYALA']];const R=T.map(([x,e])=>[x,e,ev(x)]);
+  $('#rs').innerHTML='<div class="out">'+R.map(([x,e,g])=>`<div class="${e===g?'ok':'no'}">${e===g?'✔':'✖'} Suhu ${x}°C: seharusnya ${e}, hasilmu ${g}</div>`).join('')+'</div>';
+  const w=R.filter(r=>r[1]!==r[2]);w.length?A.bad(`Uji kasus ${w.map(r=>r[0]+'°C').join(', ')} gagal. Periksa operator (> atau ≥) dan batas nilainya.`):A.win('Semua uji kasus lolos! Batas tepat 30°C termasuk kondisi menyala. Refleksi: apa beda > dan ≥?')}}
+
+/* LEVEL 3 */
+function L3(t,A){const D=[[1,0],[0,-1],[-1,0],[0,1]],Z={x:4,y:1},nm=['Maju','Belok Kiri','Belok Kanan'];let p=[],pos={x:0,y:5,d:0},busy=0;
+ t.innerHTML=`<p class="h">🏭 Antar robot 🤖 ke 🏁. Robot mulai menghadap kanan (→). Maksimal 3 blok perintah!</p><div class="row"><div id="gr"></div><div class="col"><div><button data-c="0">➕ Maju</button> <button data-c="1">➕ Kiri</button> <button data-c="2">➕ Kanan</button></div><div id="pg"></div><div><button class="pri" id="run">▶ Jalankan</button> <button id="clr">🗑️ Hapus</button></div></div></div>`;
+ const draw=()=>{let g='';for(let y=0;y<6;y++)for(let x=0;x<6;x++)g+=`<div class="cell">${x==Z.x&&y==Z.y?'🏁':''}${x==pos.x&&y==pos.y?`<b class="rb">🤖<i>${'→↑←↓'[pos.d]}</i></b>`:''}</div>`;$('#gr').innerHTML=g};
+ const prog=()=>{$('#pg').innerHTML=(p.length?p.map((b,i)=>`<div class="blk">Ulangi <button data-m="${i}">−</button><b>${b.n}</b>× <button data-a="${i}">+</button> ${nm[b.c]} <button data-x="${i}">✕</button></div>`).join(''):'<p>Belum ada blok. Tambahkan perintah.</p>');
+  t.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{if(!busy&&p[b.dataset.m].n>1){p[b.dataset.m].n--;prog()}});
+  t.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{if(!busy&&p[b.dataset.a].n<6){p[b.dataset.a].n++;prog()}});
+  t.querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>{if(!busy){p.splice(b.dataset.x,1);prog()}})};
+ t.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{if(busy)return;if(p.length>=3)return fb('⚠️ Maksimal 3 blok. Gunakan perulangan agar lebih hemat.','bad');p.push({c:+b.dataset.c,n:1});prog()});
+ $('#clr').onclick=()=>{if(!busy){p=[];pos={x:0,y:5,d:0};prog();draw()}};
+ $('#run').onclick=()=>{if(busy||!p.length)return;const st=[];p.forEach(b=>{for(let i=0;i<b.n;i++)st.push(b.c)});pos={x:0,y:5,d:0};draw();busy=1;let k=0;
+  const iv=setInterval(()=>{if(k>=st.length){clearInterval(iv);busy=0;if(pos.x==Z.x&&pos.y==Z.y)A.win('Robot tiba di 🏁 hanya dengan '+p.length+' blok berkat perulangan. Refleksi: berapa baris jika tanpa perulangan?');else{A.bad(`Robot berhenti di kolom ${pos.x+1}, baris ${pos.y+1}, belum di 🏁. Hitung lagi jumlah langkah dan arah belok.`)}return}
+   const c=st[k++];if(c==1)pos.d=(pos.d+1)%4;else if(c==2)pos.d=(pos.d+3)%4;else{pos.x+=D[pos.d][0];pos.y+=D[pos.d][1];
+    if(pos.x<0||pos.y<0||pos.x>5||pos.y>5){clearInterval(iv);busy=0;pos={x:0,y:5,d:0};draw();return A.bad('Robot menabrak dinding! Kurangi jumlah ulangan atau ubah arah.')}}draw()},320)};
+ draw();prog()}
+
+/* LEVEL 4 */
+function L4(t,A){const I=[['stok_barang = 48','int'],['nama = "Bu Sari"','str'],['harga = 15750.5','flt'],['pintu_terbuka = true','bool'],['kode = "A-102"','str'],['suhu = 36.7','flt'],['jumlah_rak = 12','int'],['lunas = false','bool']];
+ const T={int:['Integer','bilangan bulat'],flt:['Float','bilangan desimal'],str:['String','teks dalam tanda kutip'],bool:['Boolean','benar / salah']};let sel=null,left=I.length;
+ t.innerHTML=`<p class="h">📦 Ketuk sebuah nilai, lalu ketuk tipe data yang tepat.</p><div class="row"><div class="col"><div class="chips">${I.map((x,i)=>`<div class="chip2" data-i="${i}" tabindex="0">${x[0]}</div>`).join('')}</div></div><div class="col" style="flex:.8">${Object.keys(T).map(k=>`<div class="bk" data-k="${k}"><b>${T[k][0]}</b>${T[k][1]}<div class="got" id="g${k}"></div></div>`).join('')}</div></div>`;
+ t.querySelectorAll('.chip2').forEach(c=>c.onclick=()=>{if(c.classList.contains('dn'))return;t.querySelectorAll('.chip2').forEach(x=>x.classList.remove('sel'));c.classList.add('sel');sel=+c.dataset.i;fb('Pilih tipe data untuk: '+I[sel][0])});
+ t.querySelectorAll('.bk').forEach(b=>b.onclick=()=>{if(sel==null)return fb('⚠️ Pilih dulu sebuah nilai di kiri.','bad');const k=b.dataset.k,it=I[sel];
+  if(it[1]===k){const c=t.querySelector(`[data-i="${sel}"]`);c.classList.remove('sel');c.classList.add('dn');$('#g'+k).innerHTML+=it[0].split(' =')[0]+'<br>';fb(`✔ Benar! ${it[0]} bertipe ${T[k][0]} (${T[k][1]}).`,'ok');good();sel=null;if(--left==0)A.win('Semua nilai cocok dengan tipe datanya. Refleksi: mengapa "A-102" bukan Integer?')}
+  else A.bad(`${it[0]} bukan ${T[k][0]}. Cirinya: ${T[it[1]][1]}, jadi bertipe ${T[it[1]][0]}.`)})}
+
+/* LEVEL 5 */
+function L5(t,A){const tr=[8.1,9,9.8,10.6,11.2,11.8,12.4,13.1,13.8,14.6,15.5,16.2],te=[10.2,12.6,11.9],bad=v=>v>12,X=v=>20+(v-8)/9*600;let th=10,tested=0;
+ t.innerHTML=`<p class="h">☕ Latih model penyortir biji kopi. Geser batas kadar air: di atas batas = diprediksi CACAT.</p><svg id="sv" viewBox="0 0 640 220" width="100%" style="background:#fff;border-radius:12px;border:2px solid #c9dcef"></svg>
+ <p style="font-size:18px">🟢 layak (sebenarnya) &nbsp; 🔴 cacat (sebenarnya) &nbsp; ⭕ hitam = tebakan model keliru</p>
+ <input type="range" id="sl" min="8" max="17" step="0.5" value="10" aria-label="Batas kadar air"><div class="out" id="ac"></div>
+ <button class="pri" id="ck" style="margin-top:10px">🧪 Uji dengan Data Baru</button>`;
+ function r(){const dot=(v,y,h)=>{const m=(v>th)!==bad(v);return `<circle cx="${X(v)}" cy="${y}" r="13" fill="${bad(v)?'#b3261e':'#1b7f3b'}"/>${m?`<circle cx="${X(v)}" cy="${y}" r="19" fill="none" stroke="#000" stroke-width="4"/>`:''}<text x="${X(v)}" y="${y+34}" font-size="13" text-anchor="middle" fill="#12263f">${v}</text>`};
+  $('#sv').innerHTML=`<rect x="20" y="10" width="${X(th)-20}" height="200" fill="#e6f6ea"/><rect x="${X(th)}" y="10" width="${620-X(th)+20}" height="200" fill="#fdecea"/><line x1="${X(th)}" x2="${X(th)}" y1="10" y2="210" stroke="#12263f" stroke-width="4"/>
+  <text x="26" y="28" font-size="16" font-weight="700" fill="#0f5a27">Prediksi LAYAK</text><text x="${Math.min(X(th)+6,500)}" y="28" font-size="16" font-weight="700" fill="#8a1c14">Prediksi CACAT</text>
+  <text x="26" y="60" font-size="15" fill="#12263f">Data latih</text>${tr.map(v=>dot(v,85)).join('')}${tested?`<text x="26" y="150" font-size="15" fill="#12263f">Data uji</text>`+te.map(v=>dot(v,170)).join(''):''}`;
+  const ok=tr.filter(v=>(v>th)===bad(v)).length;$('#ac').innerHTML=`Batas: <b>${th}%</b> · Akurasi data latih: <b>${Math.round(ok/tr.length*100)}%</b> (${ok} dari ${tr.length})${tested?` · Data uji: <b>${te.filter(v=>(v>th)===bad(v)).length} dari 3</b>`:''}`;return ok}
+ $('#sl').oninput=e=>{th=+e.target.value;r()};r();
+ $('#ck').onclick=()=>{tested=1;const ok=r(),a=ok/tr.length,u=te.filter(v=>(v>th)===bad(v)).length;
+  if(a<.9)A.bad(`Akurasi data latih baru ${Math.round(a*100)}%. Geser batas hingga lingkaran hitam sedikit (target ≥ 90%).`);
+  else if(u<3)A.bad(`Bagus di data latih, tetapi ${3-u} data uji keliru. Model harus bisa menebak data baru, bukan hanya data latih.`);
+  else A.win(`Model akurat: latih ${Math.round(a*100)}%, uji 3 dari 3. Refleksi: mengapa model perlu diuji dengan data yang belum pernah dilihatnya?`)}}
+
+function result(){const t=total(),s=t>=450?3:t>=300?2:t>0?1:0;$('#stars').textContent='⭐'.repeat(s)+'☆'.repeat(3-s);
+ $('#rtxt').textContent=`Skor ${t} dari 500 · `+(s==3?'Teknisi Cerdas Ahli!':s==2?'Teknisi Cerdas Mahir':s==1?'Teknisi Pemula, terus berlatih!':'Belum ada misi selesai');
+ $('#rlist').innerHTML=LV.map((l,i)=>`<div class="res"><span>${l.e} Level ${i+1}: ${l.n}</span><b>${S.sc[i]?S.sc[i]+' poin':'—'}</b></div>`).join('');
+ $('#rref').textContent=t<500?'Refleksi: level mana yang paling menantang bagimu? Ulangi dari Peta Misi untuk menaikkan skor.':'Refleksi: bagaimana lima konsep ini bekerja bersama dalam robot gudang di dunia kerja?'}
+hud();
+</script></body></html>
